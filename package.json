@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "name": "sorting-algorithms-comparison",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "chart.js": "^4.3.0"
+  }
+}
