@@ -1,6 +1,6 @@
-import ArrayGen from "./ArrayGen.js";
-import CalcPerformance from "./CalcPerformance.js";
-import GenGraphic from "./GenGraphic.js";
+import ArrayGen from "./utils/ArrayGen.js";
+import CalcPerformance from "./utils/CalcPerformance.js";
+import GenGraphic from "./utils/GenGraphic.js";
 
 import insertSort from "./algorithms/inserctionSort.js";
 import bubbleSort from "./algorithms/bubbleSort.js";
