@@ -65,11 +65,11 @@ Para configurar os cenários de simulação altere os parametros do arquivo [`si
 
 ### Balance Types
 
-É o modelo de crescimento que será utilizado para gerar as entradas das simulações.
+O tipo de balanceamento define o modelo de crescimento utilizado para gerar as entradas das simulações.
 
 - #### Distribuído
 
-  No modelo distribuído os algoritmos são testados para valores de entrada com incremento constante, ou seja, o tamanho da entrada vai variar em progressão aritimética.
+  No modelo de crescimento distribuído, os algoritmos são testados para valores de entrada com incrementos constantes. Ou seja, o tamanho da entrada varia em progressão aritmética.
 
   Exemplo:
 
@@ -79,7 +79,7 @@ Para configurar os cenários de simulação altere os parametros do arquivo [`si
 
 - #### Exponencial
 
-  No modelo exponencial os algoritmos são testados para valores de entrada com incremento exponencialmente maior que o anterior, ou seja, o tamanho da entrada vai variar em progressão geometrica.
+  No modelo de crescimento exponencial, os algoritmos são testados para valores de entrada com incrementos exponencialmente maiores que o anterior. Ou seja, o tamanho da entrada varia em progressão geométrica.
 
   Exemplo:
 
