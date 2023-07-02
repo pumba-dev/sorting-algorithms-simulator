@@ -1,17 +1,16 @@
 export default {
   distributed: (size, min, max) => {
-    const array = [];
-    const step = (max - min) / (size - 1);
+    let array = [];
+    const step = size > 1 ? (max - min) / (size - 1) : 1;
 
     for (let i = 0; i < size; i++) {
       const value = min + step * i;
       array.push(parseInt(value));
     }
-
     return array;
   },
   exponential: (size, min) => {
-    const array = [];
+    let array = [];
     const firstMultiple = Math.pow(2, Math.ceil(Math.log2(min)));
     const base = 2;
 

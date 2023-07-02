@@ -1,5 +1,5 @@
 import os from "os";
-import si from "systeminformation";
+import SimulationConfigJSON from "../simulation-config.json" assert { type: "json" };
 
 export default class ProgressManager {
   constructor(totalIterations, animationDelay) {
@@ -55,6 +55,7 @@ export default class ProgressManager {
     this.printRightsHeader();
     console.log(`Progress: [${progressBar}] ${progressPercentage}%`);
     this.printSystemInfo();
+    this.printSimulationConfig();
   }
 
   printRightsHeader() {
@@ -73,9 +74,10 @@ export default class ProgressManager {
   }
 
   printSystemInfo() {
-    const operatingSystem = os.platform();
+    const platform = os.platform();
     const release = os.release();
-    const cpu = os.cpus()[0].model;
+    const arch = os.arch();
+    const cpuModel = os.cpus()[0].model;
     const cpuCores = os.cpus().length;
     const totalMemory = Math.round(os.totalmem() / (1024 * 1024 * 1024));
     const freeMemory = Math.round(os.freemem() / (1024 * 1024 * 1024));
@@ -89,11 +91,29 @@ export default class ProgressManager {
     console.log(
       "================================================================"
     );
-    console.log("Sistema Operacional:", operatingSystem, release);
-    console.log("Processador:", cpu);
+    console.log("Arquitetura:", arch);
+    console.log("Sistema Operacional:", platform);
+    console.log("Versão do Sistema Operacional:", release);
+    console.log("Modelo do Processador:", cpuModel);
     console.log("Núcleos do Processador:", cpuCores);
     console.log("Memória RAM Total (GB):", totalMemory);
     console.log("Memória RAM Livre (GB):", freeMemory);
+    console.log(
+      "================================================================"
+    );
+  }
+
+  printSimulationConfig() {
+    const { replications, loadBalances, balanceType, algorithms } =
+      SimulationConfigJSON;
+
+    console.log(
+      "###################### Simulation Config #######################"
+    );
+    console.log("Replications:", replications);
+    console.log("Load Balances:", loadBalances);
+    console.log("Balance Type:", balanceType);
+    console.log("Algorithms:", algorithms);
     console.log(
       "================================================================"
     );

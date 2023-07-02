@@ -5,10 +5,15 @@ import genLoadBalance from "../utils/genLoadBalance.js";
 
 import SimulationConfigJSON from "../simulation-config.json" assert { type: "json" };
 import algorithmsSetup from "../algorithms/algorithms-setup.js";
+import unitTest from "../utils/unitTest.js";
 
 export default class AlgorithmAnalyzer {
   constructor() {
-    this.initialize();
+    this.labels = [];
+    this.replications = 0;
+    this.scenarioSizeArray = [];
+    this.algorithmsFnArray = [];
+    this.progressManager = null;
   }
 
   /**
@@ -16,6 +21,8 @@ export default class AlgorithmAnalyzer {
    * an image that compares their performances for different scenarios.
    */
   initSimulation() {
+    this.initialize();
+
     let randomData = [];
     let increasingData = [];
     let decreasingData = [];
@@ -35,17 +42,29 @@ export default class AlgorithmAnalyzer {
     this.algorithmsFnArray.forEach((algorithm, index) => {
       randomData.push({
         label: this.labels[index],
-        data: this.startAlgSimulation(algorithm, randomScenarioArray),
+        data: this.startAlgSimulation(
+          algorithm,
+          randomScenarioArray,
+          this.labels[index]
+        ),
       });
 
       increasingData.push({
         label: this.labels[index],
-        data: this.startAlgSimulation(algorithm, incScenarioArray),
+        data: this.startAlgSimulation(
+          algorithm,
+          incScenarioArray,
+          this.labels[index]
+        ),
       });
 
       decreasingData.push({
         label: this.labels[index],
-        data: this.startAlgSimulation(algorithm, decScenarioArray),
+        data: this.startAlgSimulation(
+          algorithm,
+          decScenarioArray,
+          this.labels[index]
+        ),
       });
     });
 
@@ -61,9 +80,10 @@ export default class AlgorithmAnalyzer {
    *
    * @param algorithmFn - Algorithm to test performance.
    * @param scenarioArray - Array of scenarios.
+   * @param algorithmName - Name of Algorithm.
    * @returns Array of the average performance of the algorithm.
    */
-  startAlgSimulation(algorithmFn, scenarioArray) {
+  startAlgSimulation(algorithmFn, scenarioArray, algorithmName) {
     let data = [];
 
     scenarioArray.forEach((scenario) => {
@@ -71,7 +91,8 @@ export default class AlgorithmAnalyzer {
       for (let i = 0; i < this.replications; i++) {
         totalPerformance += this.calcAlgorithmPerformance(
           algorithmFn,
-          scenario
+          scenario,
+          algorithmName
         );
       }
       const averagePerformance = totalPerformance / this.replications;
@@ -86,14 +107,17 @@ export default class AlgorithmAnalyzer {
    *
    * @param algorithmFn - Algorithm to test performance.
    * @param scenario - Scenario Array.
+   * @param algorithmName - Name of Algorithm.
    * @returns Algorithm runtime.
    */
-  calcAlgorithmPerformance(algorithmFn, scenario) {
+  calcAlgorithmPerformance(algorithmFn, scenario, algorithmName) {
     const scenarioDeepCopy = [].concat(scenario); // Deep Copy
 
     const startTime = performance.now();
-    algorithmFn(scenarioDeepCopy);
+    const result = algorithmFn(scenarioDeepCopy);
     const endTime = performance.now();
+
+    unitTest(result, algorithmName);
 
     this.progressManager.updateProgress();
 
@@ -101,6 +125,9 @@ export default class AlgorithmAnalyzer {
     return executionTime;
   }
 
+  /**
+   * Read simulation config and initialize simulatior variables params.
+   */
   initialize() {
     const {
       replications,
@@ -144,5 +171,10 @@ export default class AlgorithmAnalyzer {
         3,
       2000
     );
+
+    // console.log("replications", this.replications);
+    // console.log("scenarioSizeArray", this.scenarioSizeArray);
+    // console.log("labels", this.labels);
+    // console.log("algorithmsFnArray", this.algorithmsFnArray);
   }
 }
