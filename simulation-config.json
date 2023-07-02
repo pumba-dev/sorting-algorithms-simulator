@@ -1,0 +1,8 @@
+{
+  "replications": 5,
+  "loadBalances": 10,
+  "minBalanceValue": 100,
+  "maxBalanceValue": 7500,
+  "balanceType": "distributed",
+  "algorithms": ["INSERCTIONSORT", "BUBBLESORT", "MERGESORT", "HEAPSORT"]
+}

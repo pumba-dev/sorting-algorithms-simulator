@@ -18,20 +18,27 @@ export default (data, labels, graphName) => {
     options: {
       responsive: true,
       scales: {
-        x: {
-          scaleLabel: {
-            display: true,
-            labelString: "Tamanho do Array",
-          },
-        },
+        x: {},
         y: {
-          min: 0,
-          max: 500,
+          suggestedMin: 0,
+          suggestedMax: 100,
           ticks: {
             callback: function (value) {
               return value + " ms";
             },
           },
+        },
+      },
+      layout: {
+        padding: 20,
+      },
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Sorting Algorithms Comparison",
         },
       },
     },
@@ -42,11 +49,11 @@ export default (data, labels, graphName) => {
     mkdirSync(resultDir);
   }
 
-  const outputPath = `${resultDir}/${graphName}`;
+  const outputPath = `${resultDir}/${graphName}.png`;
   const out = createWriteStream(outputPath);
   const stream = canvas.createPNGStream();
   stream.pipe(out);
   out.on("finish", () => {
-    console.log(`Gráfico salvo em ${outputPath}`);
+    console.log(`Gráfico salvo em: ${outputPath}`);
   });
 };

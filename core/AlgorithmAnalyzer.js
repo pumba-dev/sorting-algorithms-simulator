@@ -1,17 +1,14 @@
 import ArrayGen from "../utils/ArrayGen.js";
 import genGraphic from "../utils/genGraphic.js";
 import ProgressManager from "../utils/ProgressManager.js";
+import genLoadBalance from "../utils/genLoadBalance.js";
+
+import SimulationConfigJSON from "../simulation-config.json" assert { type: "json" };
+import algorithmsSetup from "../algorithms/algorithms-setup.js";
 
 export default class AlgorithmAnalyzer {
-  constructor(scenarioArray, algorithmsFnArray, labels, replications) {
-    this.labels = labels;
-    this.scenarioSizeArray = scenarioArray;
-    this.replications = replications;
-    this.algorithmsFnArray = algorithmsFnArray;
-    this.progressManager = new ProgressManager(
-      scenarioArray.length * algorithmsFnArray.length * replications * 3,
-      2000
-    );
+  constructor() {
+    this.initialize();
   }
 
   /**
@@ -53,17 +50,9 @@ export default class AlgorithmAnalyzer {
     });
 
     // Generate Results and Save Images
-    genGraphic(randomData, xAxisLabels, "random-scenario-comparison.png");
-    genGraphic(
-      increasingData,
-      xAxisLabels,
-      "increasing-scenario-comparison.png"
-    );
-    genGraphic(
-      decreasingData,
-      xAxisLabels,
-      "decreasing-scenario-comparison.png"
-    );
+    genGraphic(randomData, xAxisLabels, "random-scenario-comparison");
+    genGraphic(increasingData, xAxisLabels, "increasing-scenario-comparison");
+    genGraphic(decreasingData, xAxisLabels, "decreasing-scenario-comparison");
   }
 
   /**
@@ -110,5 +99,50 @@ export default class AlgorithmAnalyzer {
 
     const executionTime = endTime - startTime;
     return executionTime;
+  }
+
+  initialize() {
+    const {
+      replications,
+      loadBalances,
+      minBalanceValue,
+      maxBalanceValue,
+      balanceType,
+      algorithms,
+    } = SimulationConfigJSON;
+
+    this.replications = replications;
+
+    switch (balanceType) {
+      case "distributed":
+        this.scenarioSizeArray = genLoadBalance.distributed(
+          loadBalances,
+          minBalanceValue,
+          maxBalanceValue
+        );
+        break;
+      case "exponential":
+        this.scenarioSizeArray = genLoadBalance.exponential(
+          loadBalances,
+          minBalanceValue
+        );
+        break;
+    }
+
+    this.labels = algorithms.map((algorithm) => {
+      return algorithmsSetup[algorithm].label;
+    });
+
+    this.algorithmsFnArray = algorithms.map((algorithm) => {
+      return algorithmsSetup[algorithm].function;
+    });
+
+    this.progressManager = new ProgressManager(
+      this.scenarioSizeArray.length *
+        this.algorithmsFnArray.length *
+        replications *
+        3,
+      2000
+    );
   }
 }
