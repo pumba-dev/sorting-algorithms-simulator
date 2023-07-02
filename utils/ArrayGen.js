@@ -6,23 +6,21 @@ export default {
     for (let i = 1; i <= size; i++) {
       array.push(i);
     }
-    return JSON.parse(JSON.stringify(array));
+    return array;
   },
   dec: (size) => {
     let array = new Array();
     for (let i = size; i >= 1; i--) {
       array.push(i);
     }
-    return JSON.parse(JSON.stringify(array));
+    return array;
   },
   random: (size) => {
-    let array = ArrayGen.inc(size);
-    for (let i = 0; i < size; i++) {
-      let randomIndex = Math.floor(Math.random() * size);
-      let temp = array[i];
-      array[i] = array[randomIndex];
-      array[randomIndex] = temp;
+    let array = ArrayGen.dec(size);
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-    return JSON.parse(JSON.stringify(array));
+    return array;
   },
 };

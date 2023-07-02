@@ -1,5 +1,5 @@
 export default (A) => {
-  quickSort(A, 0, A.lenght - 1);
+  return quickSort(A, 0, A.length - 1);
 };
 
 function quickSort(A, p, r) {
