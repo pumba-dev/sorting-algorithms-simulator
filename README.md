@@ -28,9 +28,9 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - [`< Git >`](https://git-scm.com/)
 - [`< NodeJS >`](https://nodejs.org/)
 
-## 🚀 Baixando e Rodando o Projeto
+## 📥 Baixando o Projeto
 
-Para baixar e rodar o projeto, utilize os comandos:
+Para clonar e baixar as dependências do projeto, utilize os comandos:
 
 ```
 git clone https://github.com/pumba-dev/sorting-algorithms-comparison.git
@@ -38,9 +38,64 @@ git clone https://github.com/pumba-dev/sorting-algorithms-comparison.git
 cd sorting-algorithms-comparison
 
 npm install
-
-node main.js
 ```
+
+## 📝 Adicionando e Referênciando Novo Algoritmo
+
+- ### Adicionando Novo Algoritmo
+
+  Para adicionar um novo algoritmo, basta colocá-lo na pasta `./algorithms`, que está localizada no diretório raiz do projeto. O algoritmo deve receber apenas uma lista como parâmetro e retornar a lista ordenada.
+
+- ### Criando Referência
+
+  Para criar uma referência ao algoritmo, é necessário adicionar um novo item ao objeto no arquivo [`./algorithms/algorithms-setup.js`](./algorithms/algorithms-setup.js). A chave representa o nome que será utilizado para identificar o algoritmo, enquanto o valor será um objeto contendo os atributos 'label' e 'function', que armazenam o nome e o código do algoritmo, respectivamente. Dessa forma, o arquivo de configuração reconhecerá o algoritmo corretamente.
+
+## ⚙️ Configurando Simulação
+
+Para configurar os cenários de simulação altere os parametros do arquivo [`simulation-config.json`](/simulation-config.json) no diretório raiz do projeto.
+
+| Params            | Type   | Description                                                                                  |
+| ----------------- | ------ | -------------------------------------------------------------------------------------------- |
+| `replications`    | Number | Quantidade de replicações da simulação pra se tirar a média dos resultados                   |
+| `loadBalances`    | Number | Quantidade de entradas diferentes que serão usadas na simulação                              |
+| `minBalanceValue` | Number | Tamanho da entrada do primeiro ponto de carga                                                |
+| `maxBalanceValue` | Number | Tamanho da entrada do último ponto de carga (somente para tipo distribuido de balanceamento) |
+| `balanceType`     | String | Modelo de geração das entradas que serão usadas na simulação (distributed ou exponential)    |
+| `algorithms`      | Array  | Nome dos algoritmos que serão utilizados na simulação                                        |
+
+### Balance Types
+
+É o modelo de crescimento que será utilizado para gerar as entradas das simulações.
+
+- #### Distribuído
+
+  No modelo distribuído os algoritmos são testados para valores de entrada com incremento constante, ou seja, o tamanho da entrada vai variar em progressão aritimética.
+
+  Exemplo:
+
+  ```
+  [100, 200, 300, 400, 500, 600, 700, 800, ...]
+  ```
+
+- #### Exponencial
+
+  No modelo exponencial os algoritmos são testados para valores de entrada com incremento exponencialmente maior que o anterior, ou seja, o tamanho da entrada vai variar em progressão geometrica.
+
+  Exemplo:
+
+  ```
+  [128, 256, 512, 1024, 2048, 4096, 8192, 16384, ...]
+  ```
+
+## 🚀 Iniciando Simulação
+
+Para iniciar a simulação, utilize o comando:
+
+```
+npm run start
+```
+
+Se a simulação for iniciada com sucesso, uma barra de progresso será exibida para acompanhar seu andamento. Após a conclusão das simulações, os resultados serão processados e convertidos em gráficos, que serão salvos na pasta [`./results`](./results) do projeto.
 
 ## 📫 Contribuindo com o Projeto
 

@@ -1,6 +1,6 @@
 {
   "replications": 5,
-  "loadBalances": 10,
+  "loadBalances": 12,
   "minBalanceValue": 100,
   "maxBalanceValue": 200000,
   "balanceType": "exponential",

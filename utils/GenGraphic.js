@@ -22,7 +22,7 @@ export default (data, labels, graphName) => {
         y: {
           suggestedMin: 0,
           suggestedMax: 100,
-          max: 200,
+          max: 150,
           ticks: {
             callback: function (value) {
               return value + " ms";
