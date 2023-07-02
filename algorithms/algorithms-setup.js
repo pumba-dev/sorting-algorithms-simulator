@@ -3,6 +3,7 @@ import bubbleSort from "./bubbleSort.js";
 import mergeSort from "./mergeSort.js";
 import heapSort from "./heapSort.js";
 import quickSort from "./quickSort.js";
+import quickSortRnd from "./quickSortRnd.js";
 
 export default {
   INSERCTIONSORT: {
@@ -24,5 +25,9 @@ export default {
   QUICKSORT: {
     label: "Quick",
     function: quickSort,
+  },
+  QUICKSORTRND: {
+    label: "Quick Rnd",
+    function: quickSortRnd,
   },
 };

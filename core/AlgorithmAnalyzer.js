@@ -14,6 +14,7 @@ export default class AlgorithmAnalyzer {
     this.scenarioSizeArray = [];
     this.algorithmsFnArray = [];
     this.progressManager = null;
+    this.initialize();
   }
 
   /**
@@ -21,8 +22,6 @@ export default class AlgorithmAnalyzer {
    * an image that compares their performances for different scenarios.
    */
   initSimulation() {
-    this.initialize();
-
     let randomData = [];
     let increasingData = [];
     let decreasingData = [];
@@ -39,6 +38,7 @@ export default class AlgorithmAnalyzer {
 
     this.progressManager.startAnimation();
 
+    // Init Calculations of all algorithms
     this.algorithmsFnArray.forEach((algorithm, index) => {
       randomData.push({
         label: this.labels[index],
@@ -72,6 +72,8 @@ export default class AlgorithmAnalyzer {
     genGraphic(randomData, xAxisLabels, "random-scenario-comparison");
     genGraphic(increasingData, xAxisLabels, "increasing-scenario-comparison");
     genGraphic(decreasingData, xAxisLabels, "decreasing-scenario-comparison");
+
+    this.progressManager.updateProgress();
   }
 
   /**
@@ -164,11 +166,15 @@ export default class AlgorithmAnalyzer {
       return algorithmsSetup[algorithm].function;
     });
 
+    const arrayCases = 3;
+    const graphIterations = 1;
+
     this.progressManager = new ProgressManager(
       this.scenarioSizeArray.length *
         this.algorithmsFnArray.length *
         replications *
-        3,
+        arrayCases +
+        graphIterations,
       2000
     );
 

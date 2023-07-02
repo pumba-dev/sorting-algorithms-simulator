@@ -27,12 +27,7 @@ export default class ProgressManager {
 
     if (this.progress >= this.totalIterations) {
       this.stopAnimation();
-
-      this.printRightsHeader();
-      console.log(
-        `!!!!!!!!!!!!!! Algoritmo Concluído com Sucesso :) !!!!!!!!!!!!!!`
-      );
-      this.printSystemInfo();
+      this.printFinishInfo();
     } else {
       this.drawProgressAnimation();
     }
@@ -117,5 +112,14 @@ export default class ProgressManager {
     console.log(
       "================================================================"
     );
+  }
+
+  printFinishInfo() {
+    this.printRightsHeader();
+    console.log(
+      `!!!!!!!!!!!!!! Algoritmo Concluído com Sucesso :) !!!!!!!!!!!!!!`
+    );
+    this.printSystemInfo();
+    this.printSimulationConfig();
   }
 }

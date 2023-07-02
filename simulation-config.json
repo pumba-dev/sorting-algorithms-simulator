@@ -1,8 +1,14 @@
 {
-  "replications": 3,
-  "loadBalances": 8,
+  "replications": 5,
+  "loadBalances": 10,
   "minBalanceValue": 100,
-  "maxBalanceValue": 20000,
+  "maxBalanceValue": 200000,
   "balanceType": "exponential",
-  "algorithms": ["INSERCTIONSORT", "BUBBLESORT", "MERGESORT", "HEAPSORT"]
+  "algorithms": [
+    "INSERCTIONSORT",
+    "BUBBLESORT",
+    "MERGESORT",
+    "HEAPSORT",
+    "QUICKSORTRND"
+  ]
 }
