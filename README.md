@@ -26,7 +26,7 @@
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - [`< Git >`](https://git-scm.com/)
-- [`< NodeJS >`](https://nodejs.org/)
+- [`< NodeJS 18+ >`](https://nodejs.org/)
 
 ## 📥 Baixando o Projeto
 
@@ -50,6 +50,21 @@ npm install
 
   Para criar uma referência ao algoritmo, é necessário adicionar um novo item ao objeto no arquivo [`./algorithms/algorithms-setup.js`](./algorithms/algorithms-setup.js). A chave representa o nome que será utilizado para identificar o algoritmo, enquanto o valor será um objeto contendo os atributos 'label' e 'function', que armazenam o nome e o código do algoritmo, respectivamente. Dessa forma, o arquivo de configuração reconhecerá o algoritmo corretamente.
 
+  Exemplo:
+
+  ```javascript
+  // ...
+  import newSortingFn from "./new-sorting.js";
+
+  export default {
+    // ...
+    ALGORITHMKEY: {
+      label: "Algorithm Name",
+      function: newSortingFn,
+    },
+  };
+  ```
+
 ## ⚙️ Configurando Simulação
 
 Para configurar os cenários de simulação altere os parametros do arquivo [`simulation-config.json`](/simulation-config.json) no diretório raiz do projeto.
@@ -65,7 +80,7 @@ Para configurar os cenários de simulação altere os parametros do arquivo [`si
 
 ### Balance Types
 
-O tipo de balanceamento define o modelo de crescimento utilizado para gerar as entradas das simulações.
+O tipo de balanceamento define o modelo de crescimento utilizado para gerar as entradas (pontos de cargas) das simulações.
 
 - #### Distribuído
 
