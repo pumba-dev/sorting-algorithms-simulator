@@ -1,5 +1,5 @@
 import ArrayGen from "../utils/ArrayGen.js";
-import genGraphic from "../utils/genGraphic.js";
+import genGraphic from "../utils/GenGraphic.js";
 import ProgressManager from "../utils/ProgressManager.js";
 import genLoadBalance from "../utils/genLoadBalance.js";
 
@@ -69,9 +69,9 @@ export default class AlgorithmAnalyzer {
     });
 
     // Generate Results and Save Images
-    genGraphic(randomData, xAxisLabels, "random-scenario-comparison");
-    genGraphic(increasingData, xAxisLabels, "increasing-scenario-comparison");
-    genGraphic(decreasingData, xAxisLabels, "decreasing-scenario-comparison");
+    genGraphic(randomData, xAxisLabels, ["random-scenario-comparison", "Cenario de numeros aleatorios"]);
+    genGraphic(increasingData, xAxisLabels, ["increasing-scenario-comparison", "Cenario de numeros crescentes"]);
+    genGraphic(decreasingData, xAxisLabels, ["decreasing-scenario-comparison", "Cenario de numeros decrescentes"]);
 
     this.progressManager.updateProgress();
   }
