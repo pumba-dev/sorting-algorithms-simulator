@@ -22,4 +22,7 @@ export default {
 
     return array;
   },
+  preSelected: (vector) => {
+    return vector;
+  },
 };

@@ -3,7 +3,17 @@
   "loadBalances": 12,
   "minBalanceValue": 100,
   "maxBalanceValue": 200000,
-  "balanceType": "exponential",
+  "vector": [
+    100,
+    1000,
+    5000,
+    30000,
+    50000,
+    100000,
+    150000,
+    200000
+  ],
+  "balanceType": "preSelected",
   "algorithms": [
     "INSERCTIONSORT",
     "BUBBLESORT",
