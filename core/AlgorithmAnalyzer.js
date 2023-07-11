@@ -138,6 +138,7 @@ export default class AlgorithmAnalyzer {
       maxBalanceValue,
       balanceType,
       algorithms,
+      vector,
     } = SimulationConfigJSON;
 
     this.replications = replications;
@@ -156,6 +157,11 @@ export default class AlgorithmAnalyzer {
           minBalanceValue
         );
         break;
+      case "preSelected":
+        this.scenarioSizeArray = genLoadBalance.preSelected(
+          vector
+        );
+        break;
     }
 
     this.labels = algorithms.map((algorithm) => {
@@ -171,10 +177,10 @@ export default class AlgorithmAnalyzer {
 
     this.progressManager = new ProgressManager(
       this.scenarioSizeArray.length *
-        this.algorithmsFnArray.length *
-        replications *
-        arrayCases +
-        graphIterations,
+      this.algorithmsFnArray.length *
+      replications *
+      arrayCases +
+      graphIterations,
       2000
     );
 
