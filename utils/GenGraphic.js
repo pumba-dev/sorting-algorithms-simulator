@@ -22,7 +22,7 @@ export default (data, labels, graphName) => {
         y: {
           suggestedMin: 0,
           suggestedMax: 100,
-          max: 150,
+          max: 1000,
           ticks: {
             callback: function (value) {
               return value + " ms";
@@ -39,7 +39,7 @@ export default (data, labels, graphName) => {
         },
         title: {
           display: true,
-          text: "Sorting Algorithms Comparison",
+          text: graphName[1],
         },
       },
     },
@@ -50,7 +50,7 @@ export default (data, labels, graphName) => {
     mkdirSync(resultDir);
   }
 
-  const outputPath = `${resultDir}/${graphName}.png`;
+  const outputPath = `${resultDir}/${graphName[0]}.png`;
   const out = createWriteStream(outputPath);
   const stream = canvas.createPNGStream();
   stream.pipe(out);
