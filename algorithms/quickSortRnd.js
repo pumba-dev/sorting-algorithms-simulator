@@ -3,13 +3,19 @@ export default (A) => {
 };
 
 function quickSortRnd(A, p, r) {
+  let comparisons = 0;
+
   if (p < r) {
-    const q = partitionRnd(A, p, r);
-    quickSortRnd(A, p, q - 1);
-    quickSortRnd(A, q + 1, r);
+    comparisons++;
+
+    const partition = partitionRnd(A, p, r);
+    const left = quickSortRnd(A, p, partition.q - 1);
+    const right = quickSortRnd(A, partition.q + 1, r);
+
+    comparisons += partition.comparisons + left.comparisons + right.comparisons;
   }
 
-  return A;
+  return { A, comparisons };
 }
 
 function partitionRnd(A, p, r) {
@@ -19,19 +25,22 @@ function partitionRnd(A, p, r) {
 }
 
 function partition(A, p, r) {
+  let comparisons = 0;
   const x = A[r];
   let i = p - 1;
 
   for (let j = p; j <= r - 1; j++) {
+    comparisons++;
     if (A[j] <= x) {
       i += 1;
       [A[i], A[j]] = [A[j], A[i]];
+      comparisons++;
     }
   }
 
   [A[i + 1], A[r]] = [A[r], A[i + 1]];
 
-  return i + 1;
+  return { q: i + 1, comparisons };
 }
 
 function random(min, max) {

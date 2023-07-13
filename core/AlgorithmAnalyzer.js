@@ -14,6 +14,8 @@ export default class AlgorithmAnalyzer {
     this.scenarioSizeArray = [];
     this.algorithmsFnArray = [];
     this.progressManager = null;
+    this.performanceYMax = 0;
+    this.comparisonYMax = 0;
     this.initialize();
   }
 
@@ -25,6 +27,9 @@ export default class AlgorithmAnalyzer {
     let randomData = [];
     let increasingData = [];
     let decreasingData = [];
+    let randomComparisonData = [];
+    let increasingComparisonData = [];
+    let decreasingComparisonData = [];
     const xAxisLabels = this.scenarioSizeArray.map((size) => `${size}`);
     const randomScenarioArray = this.scenarioSizeArray.map((size) => {
       return ArrayGen.random(size);
@@ -38,7 +43,7 @@ export default class AlgorithmAnalyzer {
 
     this.progressManager.startAnimation();
 
-    // Init Calculations of all algorithms
+    // Init Calculations of all algorithms performance
     this.algorithmsFnArray.forEach((algorithm, index) => {
       randomData.push({
         label: this.labels[index],
@@ -68,10 +73,87 @@ export default class AlgorithmAnalyzer {
       });
     });
 
+    // Init Calculation of All Algorithms Comparison Counter
+    this.algorithmsFnArray.forEach((algorithm, index) => {
+      randomComparisonData.push({
+        label: this.labels[index],
+        data: this.startAlgComparisonCount(
+          algorithm,
+          randomScenarioArray,
+          this.labels[index]
+        ),
+      });
+
+      increasingComparisonData.push({
+        label: this.labels[index],
+        data: this.startAlgComparisonCount(
+          algorithm,
+          incScenarioArray,
+          this.labels[index]
+        ),
+      });
+
+      decreasingComparisonData.push({
+        label: this.labels[index],
+        data: this.startAlgComparisonCount(
+          algorithm,
+          decScenarioArray,
+          this.labels[index]
+        ),
+      });
+    });
+
     // Generate Results and Save Images
-    genGraphic(randomData, xAxisLabels, "random-scenario-comparison");
-    genGraphic(increasingData, xAxisLabels, "increasing-scenario-comparison");
-    genGraphic(decreasingData, xAxisLabels, "decreasing-scenario-comparison");
+    // |-- Performance Count
+    genGraphic(
+      randomData,
+      xAxisLabels,
+      "random-scenario-performance",
+      "Teste de Performance: Cenário Randomico",
+      "ms",
+      this.performanceYMax
+    );
+    genGraphic(
+      increasingData,
+      xAxisLabels,
+      "increasing-scenario-performance",
+      "Teste de Performance: Cenário Ordenado",
+      "ms",
+      this.performanceYMax
+    );
+    genGraphic(
+      decreasingData,
+      xAxisLabels,
+      "decreasing-scenario-performance",
+      "Teste de Performance: Cenário Inverso",
+      "ms",
+      this.performanceYMax
+    );
+    // |-- Comparisons Count
+    genGraphic(
+      randomComparisonData,
+      xAxisLabels,
+      "random-scenario-comparison",
+      "Teste de Comparações: Cenário Randomico",
+      "comp",
+      this.comparisonYMax
+    );
+    genGraphic(
+      increasingComparisonData,
+      xAxisLabels,
+      "increasing-scenario-comparison",
+      "Teste de Comparações: Cenário Ordenado",
+      "comp",
+      this.comparisonYMax
+    );
+    genGraphic(
+      decreasingComparisonData,
+      xAxisLabels,
+      "decreasing-scenario-comparison",
+      "Teste de Comparações: Cenário Inverso",
+      "comp",
+      this.comparisonYMax
+    );
 
     this.progressManager.updateProgress();
   }
@@ -89,13 +171,17 @@ export default class AlgorithmAnalyzer {
     let data = [];
 
     scenarioArray.forEach((scenario) => {
-      let totalPerformance = 0;
+      let totalPerformance = 0.0;
       for (let i = 0; i < this.replications; i++) {
-        totalPerformance += this.calcAlgorithmPerformance(
+        const algPerformance = this.calcAlgorithmPerformance(
           algorithmFn,
           scenario,
           algorithmName
         );
+        totalPerformance += algPerformance;
+        // console.log(
+        //   `${algorithmName} - ${scenario.length} : ${algPerformance}`
+        // );
       }
       const averagePerformance = totalPerformance / this.replications;
       data.push(averagePerformance);
@@ -116,15 +202,40 @@ export default class AlgorithmAnalyzer {
     const scenarioDeepCopy = [].concat(scenario); // Deep Copy
 
     const startTime = performance.now();
-    const result = algorithmFn(scenarioDeepCopy);
+    const { A } = algorithmFn(scenarioDeepCopy);
     const endTime = performance.now();
 
-    unitTest(result, algorithmName);
+    unitTest(A, algorithmName);
 
     this.progressManager.updateProgress();
 
     const executionTime = endTime - startTime;
     return executionTime;
+  }
+
+  startAlgComparisonCount(algorithmFn, scenarioArray, algorithmName) {
+    let data = [];
+
+    scenarioArray.forEach((scenario) => {
+      let totalComparison = this.calcAlgorithmComparisons(
+        algorithmFn,
+        scenario
+      );
+      // console.log("Total comparison: " + totalComparison);
+      data.push(totalComparison);
+    });
+
+    return data;
+  }
+
+  calcAlgorithmComparisons(algorithmFn, scenario) {
+    const scenarioDeepCopy = [].concat(scenario); // Deep Copy
+
+    const { comparisons } = algorithmFn(scenarioDeepCopy);
+
+    // this.progressManager.updateProgress();
+
+    return comparisons;
   }
 
   /**
@@ -139,9 +250,13 @@ export default class AlgorithmAnalyzer {
       balanceType,
       algorithms,
       vector,
+      performanceYMax,
+      comparisonYMax,
     } = SimulationConfigJSON;
 
     this.replications = replications;
+    this.performanceYMax = performanceYMax;
+    this.comparisonYMax = comparisonYMax;
 
     switch (balanceType) {
       case "distributed":
@@ -158,9 +273,7 @@ export default class AlgorithmAnalyzer {
         );
         break;
       case "preSelected":
-        this.scenarioSizeArray = genLoadBalance.preSelected(
-          vector
-        );
+        this.scenarioSizeArray = genLoadBalance.preSelected(vector);
         break;
     }
 
@@ -177,10 +290,10 @@ export default class AlgorithmAnalyzer {
 
     this.progressManager = new ProgressManager(
       this.scenarioSizeArray.length *
-      this.algorithmsFnArray.length *
-      replications *
-      arrayCases +
-      graphIterations,
+        this.algorithmsFnArray.length *
+        replications *
+        arrayCases +
+        graphIterations,
       2000
     );
 

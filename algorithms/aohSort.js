@@ -1,43 +1,47 @@
-import inserctionSort from "./inserctionSort.js";
-import mergeSort from "./mergeSort.js";
 import heapSort from "./heapSort.js";
+import inserctionSort from "./inserctionSort.js";
 import quickSortRnd from "./quickSortRnd.js";
 
 export default function aohSort(A) {
-  if (isSorted(A)) {
-    return A;
-  }
-  if (isReverseSorted(A)) {
-    if (A.length <= 150) {
-      return inserctionSort(A);
-    } else {
-      return quickSortRnd(A);
-    }
+  let comparisons = 0;
+  const size = A.length;
+
+  if (size <= 500) {
+    comparisons++;
+    const inserction = inserctionSort(A);
+    comparisons += inserction.comparisons;
+    return { A: inserction.A, comparisons };
+  } else if (size <= 900) {
+    comparisons++;
+    const heap = heapSort(A);
+    comparisons += heap.comparisons;
+    return { A: heap.A, comparisons };
   } else {
-    if (A.length <= 250) {
-      return inserctionSort(A);
+    comparisons++;
+    const sorted = isSorted(A);
+    comparisons += sorted.comparisons;
+
+    if (sorted.value) {
+      comparisons++;
+      return { A, comparisons };
     } else {
-      return quickSortRnd(A);
+      comparisons++;
+      const quick = quickSortRnd(A);
+      comparisons += quick.comparisons;
+      return { A: quick.A, comparisons };
     }
   }
 }
 
 function isSorted(A) {
+  let comparisons = 0;
   const n = A.length;
   for (let i = 1; i < n; i++) {
+    comparisons++;
     if (A[i] < A[i - 1]) {
-      return false;
+      comparisons++;
+      return { value: false, comparisons };
     }
   }
-  return true;
-}
-
-function isReverseSorted(A) {
-  const n = A.length;
-  for (let i = 1; i < n; i++) {
-    if (A[i] > A[i - 1]) {
-      return false;
-    }
-  }
-  return true;
+  return { value: true, comparisons };
 }

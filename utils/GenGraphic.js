@@ -3,7 +3,7 @@ import { createWriteStream, existsSync, mkdirSync } from "fs";
 import Chart from "chart.js/auto";
 import { Colors } from "chart.js";
 
-export default (data, labels, graphName) => {
+export default (data, labels, graphName, graphTitle, yAxisSufix, yAxisMax) => {
   Chart.register(Colors);
 
   const canvas = createCanvas(800, 600);
@@ -20,12 +20,10 @@ export default (data, labels, graphName) => {
       scales: {
         x: {},
         y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-          max: 0.1,
+          max: yAxisMax,
           ticks: {
             callback: function (value) {
-              return value + " ms";
+              return value + " " + yAxisSufix;
             },
           },
         },
@@ -39,7 +37,7 @@ export default (data, labels, graphName) => {
         },
         title: {
           display: true,
-          text: "Sorting Algorithms Comparison",
+          text: graphTitle,
         },
       },
     },

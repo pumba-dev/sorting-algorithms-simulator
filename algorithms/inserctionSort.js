@@ -1,6 +1,6 @@
-export default (array) => {
+export default (A) => {
   let key, i, j;
-  let A = array;
+  let comparisons = 0;
 
   for (j = 1; j < A.length; j++) {
     key = A[j];
@@ -9,9 +9,11 @@ export default (array) => {
     while (i >= 0 && A[i] > key) {
       A[i + 1] = A[i];
       i = i - 1;
+      comparisons++;
     }
+    comparisons++;
     A[i + 1] = key;
   }
 
-  return A;
+  return { A, comparisons };
 };
