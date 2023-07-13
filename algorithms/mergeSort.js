@@ -15,7 +15,7 @@ export default (array) => {
   return mergeDance(leftResult, rightResult);
 };
 
-function mergeDance(left, right) {
+export function mergeDance(left, right) {
   const mergedArray = [];
   let leftIndex = 0;
   let rightIndex = 0;

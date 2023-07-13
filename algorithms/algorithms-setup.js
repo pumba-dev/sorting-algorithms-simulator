@@ -4,6 +4,9 @@ import mergeSort from "./mergeSort.js";
 import heapSort from "./heapSort.js";
 import quickSort from "./quickSort.js";
 import quickSortRnd from "./quickSortRnd.js";
+import aohSort from "./aohSort.js";
+import insermergeSort from "./insermergeSort.js";
+import mergickSort from "./mergickSort.js";
 
 export default {
   INSERCTIONSORT: {
@@ -29,5 +32,17 @@ export default {
   QUICKSORTRND: {
     label: "Quick Rnd",
     function: quickSortRnd,
+  },
+  AOHSORT: {
+    label: "AOH",
+    function: aohSort,
+  },
+  INSERMERGE: {
+    label: "Insert+Merge",
+    function: insermergeSort,
+  },
+  MERGICK: {
+    label: "Quick+Merge",
+    function: mergickSort,
   },
 };
