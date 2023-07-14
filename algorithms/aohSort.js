@@ -11,11 +11,6 @@ export default function aohSort(A) {
     const inserction = inserctionSort(A);
     comparisons += inserction.comparisons;
     return { A: inserction.A, comparisons };
-  } else if (size <= 900) {
-    comparisons++;
-    const heap = heapSort(A);
-    comparisons += heap.comparisons;
-    return { A: heap.A, comparisons };
   } else {
     comparisons++;
     const sorted = isSorted(A);

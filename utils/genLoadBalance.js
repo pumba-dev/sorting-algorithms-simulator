@@ -1,12 +1,14 @@
 export default {
   distributed: (size, min, max) => {
-    let array = [];
-    const step = size > 1 ? (max - min) / size : 1;
+    const array = [];
+    const step = Math.ceil((max - min) / (size - 1));
 
-    for (let i = 1; i <= size; i++) {
-      const value = min + step * i;
-      array.push(parseInt(value));
+    for (let i = 0; i < size; i++) {
+      array.push(min + i * step);
     }
+
+    array[size - 1] = max;
+
     return array;
   },
   exponential: (size, min) => {

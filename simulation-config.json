@@ -1,11 +1,18 @@
 {
   "replications": 10,
   "loadBalances": 25,
-  "minBalanceValue": 0,
-  "maxBalanceValue": 250000,
+  "minBalanceValue": 100,
+  "maxBalanceValue": 2500,
   "vector": [5000, 30000, 50000, 100000, 150000, 250000],
-  "performanceYMax": 50,
-  "comparisonYMax": 1000000,
+  "performanceYMax": 2,
+  "comparisonYMax": 500000,
   "balanceType": "distributed",
-  "algorithms": ["AOHSORT", "MERGESORT", "HEAPSORT", "QUICKSORTRND"]
+  "algorithms": [
+    "AOHSORT",
+    "INSERCTIONSORT",
+    "BUBBLESORT",
+    "MERGESORT",
+    "HEAPSORT",
+    "QUICKSORTRND"
+  ]
 }

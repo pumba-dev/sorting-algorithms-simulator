@@ -19,7 +19,7 @@
 
 ## 📖 Documentação
 
-- [Artigo - Em desenvolvimento](#)
+- [Artigo](/artigo-algoritmos_ordenacao.pdf)
 
 ## 💻 Pré-requisitos
 
